@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wechat.dao.ReportMapper">
+  <resultMap id="BaseResultMap" type="com.wechat.entity.Report">
+    <id column="report_id" jdbcType="INTEGER" property="reportId" />
+    <result column="user_unique_id" jdbcType="VARCHAR" property="userUniqueId" />
+    <result column="test_code" jdbcType="VARCHAR" property="testCode" />
+    <result column="total_score" jdbcType="INTEGER" property="totalScore" />
+    <result column="user_score" jdbcType="INTEGER" property="userScore" />
+    <result column="use_time" jdbcType="INTEGER" property="useTime" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
+    <result column="grade_name" jdbcType="VARCHAR" property="gradeName" />
+    <result column="subject_code" jdbcType="VARCHAR" property="subjectCode" />
+    <result column="grade_code" jdbcType="VARCHAR" property="gradeCode" />
+    <result column="test_content" jdbcType="LONGVARCHAR" property="testContent" />
+    <result column="error_frequency" jdbcType="LONGVARCHAR" property="errorFrequency" />
+    <result column="columnar" jdbcType="LONGVARCHAR" property="columnar" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    report_id, user_unique_id, test_code, total_score, user_score, use_time, create_time, 
+    title, subject_name, grade_name, subject_code, grade_code,test_content, error_frequency, columnar
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from report
+    where report_id = #{reportId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from report
+    where report_id = #{reportId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wechat.entity.Report">
+    insert into report (report_id, user_unique_id, test_code, 
+      total_score, user_score, use_time, 
+      create_time, title, subject_name, 
+      grade_name, subject_code, grade_code, 
+      test_content, error_frequency, columnar
+      )
+    values (#{reportId,jdbcType=INTEGER}, #{userUniqueId,jdbcType=VARCHAR}, #{testCode,jdbcType=VARCHAR}, 
+      #{totalScore,jdbcType=INTEGER}, #{userScore,jdbcType=INTEGER}, #{useTime,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=DATE}, #{title,jdbcType=VARCHAR}, #{subjectName,jdbcType=VARCHAR}, 
+      #{gradeName,jdbcType=VARCHAR}, #{subjectCode,jdbcType=VARCHAR}, #{gradeCode,jdbcType=VARCHAR}, 
+      #{testContent,jdbcType=LONGVARCHAR}, #{errorFrequency,jdbcType=LONGVARCHAR}, #{columnar,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wechat.entity.Report">
+    insert into report
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="reportId != null">
+        report_id,
+      </if>
+      <if test="userUniqueId != null">
+        user_unique_id,
+      </if>
+      <if test="testCode != null">
+        test_code,
+      </if>
+      <if test="totalScore != null">
+        total_score,
+      </if>
+      <if test="userScore != null">
+        user_score,
+      </if>
+      <if test="useTime != null">
+        use_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="subjectName != null">
+        subject_name,
+      </if>
+      <if test="gradeName != null">
+        grade_name,
+      </if>
+      <if test="subjectCode != null">
+        subject_code,
+      </if>
+      <if test="gradeCode != null">
+        grade_code,
+      </if>
+      <if test="testContent != null">
+        test_content,
+      </if>
+      <if test="errorFrequency != null">
+        error_frequency,
+      </if>
+      <if test="columnar != null">
+        columnar,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="reportId != null">
+        #{reportId,jdbcType=INTEGER},
+      </if>
+      <if test="userUniqueId != null">
+        #{userUniqueId,jdbcType=VARCHAR},
+      </if>
+      <if test="testCode != null">
+        #{testCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalScore != null">
+        #{totalScore,jdbcType=INTEGER},
+      </if>
+      <if test="userScore != null">
+        #{userScore,jdbcType=INTEGER},
+      </if>
+      <if test="useTime != null">
+        #{useTime,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectName != null">
+        #{subjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeName != null">
+        #{gradeName,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectCode != null">
+        #{subjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeCode != null">
+        #{gradeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="testContent != null">
+        #{testContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="errorFrequency != null">
+        #{errorFrequency,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="columnar != null">
+        #{columnar,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wechat.entity.Report">
+    update report
+    <set>
+      <if test="userUniqueId != null">
+        user_unique_id = #{userUniqueId,jdbcType=VARCHAR},
+      </if>
+      <if test="testCode != null">
+        test_code = #{testCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalScore != null">
+        total_score = #{totalScore,jdbcType=INTEGER},
+      </if>
+      <if test="userScore != null">
+        user_score = #{userScore,jdbcType=INTEGER},
+      </if>
+      <if test="useTime != null">
+        use_time = #{useTime,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectName != null">
+        subject_name = #{subjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeName != null">
+        grade_name = #{gradeName,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectCode != null">
+        subject_code = #{subjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeCode != null">
+        grade_code = #{gradeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="testContent != null">
+        test_content = #{testContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="errorFrequency != null">
+        error_frequency = #{errorFrequency,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="columnar != null">
+        columnar = #{columnar,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where report_id = #{reportId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wechat.entity.Report">
+    update report
+    set user_unique_id = #{userUniqueId,jdbcType=VARCHAR},
+      test_code = #{testCode,jdbcType=VARCHAR},
+      total_score = #{totalScore,jdbcType=INTEGER},
+      user_score = #{userScore,jdbcType=INTEGER},
+      use_time = #{useTime,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=DATE},
+      title = #{title,jdbcType=VARCHAR},
+      subject_name = #{subjectName,jdbcType=VARCHAR},
+      grade_name = #{gradeName,jdbcType=VARCHAR},
+      subject_code = #{subjectCode,jdbcType=VARCHAR},
+      grade_code = #{gradeCode,jdbcType=VARCHAR},
+      test_content = #{testContent,jdbcType=LONGVARCHAR},
+      error_frequency = #{errorFrequency,jdbcType=LONGVARCHAR},
+      columnar = #{columnar,jdbcType=LONGVARCHAR}
+    where report_id = #{reportId,jdbcType=INTEGER}
+  </update>
+
+  <select id="getClassReport" parameterType="Object" resultMap="BaseResultMap">
+    select r.* from report r, child c WHERE r.user_unique_id = c.child_id AND c.classes = #{classId} AND r.test_code = #{testCode}
+  </select>
+
+  <select id="selectByChildAndTest" parameterType="Object" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from report
+    where user_unique_id = #{childId} AND test_code=#{testCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByChildAnd" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select
+    <include refid="Base_Column_List" />
+    from report
+    where user_unique_id = #{userUniqueId}
+  </select>
+</mapper>

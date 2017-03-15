@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wechat.dao.SchoolClassMapper" >
+  <resultMap id="BaseResultMap" type="com.wechat.entity.SchoolClass" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="BIGINT" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="SchoolClassVOMap" type="com.wechat.entity.vo.SchoolClassVO" >
+    <result column="id" property="classId" jdbcType="BIGINT" />
+    <result column="name" property="className" jdbcType="VARCHAR" />
+    <result column="gradeId" property="gradeId" jdbcType="BIGINT" />
+    <result column="gradeName" property="gradeName" jdbcType="VARCHAR" />
+    <result column="schoolId" property="schoolId" jdbcType="BIGINT" />
+    <result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, pid, level
+  </sql>
+  <!-- 通过班级id查询班级、年级、学校信息 -->
+  <select id="selectSchoolClassVO" resultMap="SchoolClassVOMap" parameterType="Long">
+    select
+    sc.id, sc.name, grade.id AS gradeId, grade.name AS gradeName, school.id AS schoolId, school.name AS schoolName
+    from school_class sc
+    LEFT JOIN school_class grade ON sc.pid = grade.id
+    LEFT JOIN school_class school ON grade.pid = school.id
+    where sc.id = #{classId,jdbcType=BIGINT}
+  </select>
+  <!-- 通过班级id查询 -->
+  <select id="selectMesByClassId" resultMap="BaseResultMap" parameterType="com.wechat.entity.SchoolClass">
+  	select 
+  	<include refid="Base_Column_List" />
+    from school_class
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <!-- 通过pid查询 -->
+  <select id="selectMesByPid" resultMap="BaseResultMap" parameterType="com.wechat.entity.SchoolClass">
+  	select 
+  	<include refid="Base_Column_List" />
+    from school_class
+    where id = #{pid,jdbcType=BIGINT}
+  </select>
+  <!-- 通过pid查询 -->
+  <select id="selectPidByid" resultMap="BaseResultMap" parameterType="com.wechat.entity.SchoolClass">
+  	select 
+  	<include refid="Base_Column_List" />
+    from school_class
+    where pid = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from school_class
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from school_class
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wechat.entity.SchoolClass" >
+    insert into school_class (id, name, pid, 
+      level)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{pid,jdbcType=BIGINT}, 
+      #{level,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wechat.entity.SchoolClass" >
+    insert into school_class
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wechat.entity.SchoolClass" >
+    update school_class
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wechat.entity.SchoolClass" >
+    update school_class
+    set name = #{name,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=BIGINT},
+      level = #{level,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectAllGroupByPid" resultMap="BaseResultMap">
+  	select * from school_class where length(name)  &gt; 9 and pid  &gt;=110000 and pid &lt;= 110229 group by pid
+  </select>
+</mapper>

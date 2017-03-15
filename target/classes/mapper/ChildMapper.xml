@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wechat.dao.ChildMapper">
+  <resultMap id="BaseResultMap" type="com.wechat.entity.Child">
+    <id column="child_id" jdbcType="VARCHAR" property="childId" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="classes" jdbcType="VARCHAR" property="classes" />
+    <result column="area_id" jdbcType="BIGINT" property="areaId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    child_id, parent_id, nickname, avatar, area_name, classes,area_id
+  </sql>
+  <!-- 通过班级id查询 -->
+  <select id="selectByClassId" parameterType="com.wechat.entity.Child" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from child
+    where classes = #{classes,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.wechat.entity.Child" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from child
+    where child_id = #{childId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from child
+    where child_id = #{childId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wechat.entity.Child">
+    <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="childId">
+      SELECT UUID()
+    </selectKey>
+    insert into child (child_id, parent_id, nickname, 
+      avatar, area_name, classes, update_time, create_time,area_id)
+    values (#{childId,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{avatar,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, #{classes,jdbcType=VARCHAR}, now(), now(),#{areaId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wechat.entity.Child">
+    <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="childId">
+      SELECT UUID()
+    </selectKey>
+    insert into child
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="childId != null">
+        child_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="areaName != null">
+        area_name,
+      </if>
+      <if test="classes != null">
+        classes,
+      </if>
+      <if test="areaId != null">
+        area_id,
+      </if>
+      update_time,
+      create_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="childId != null">
+        #{childId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="classes != null">
+        #{classes,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        #{area_id,jdbcType=BIGINT},
+      </if>
+      now(), now()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wechat.entity.Child">
+    update child
+    <set>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="classes != null">
+        classes = #{classes,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        area_id = #{areaId,jdbcType=BIGINT},
+      </if>
+      update_time = now()
+    </set>
+    where child_id = #{childId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wechat.entity.Child">
+    update child
+    set parent_id = #{parentId,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      area_name = #{areaName,jdbcType=VARCHAR},
+      area_id = #{areaId,jdbcType=BIGINT},
+      classes = #{classes,jdbcType=VARCHAR}, update_time = now()
+    where child_id = #{childId,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 查询用户列表 -->
+  <select id="selectList" resultMap="BaseResultMap"  parameterType="Object">
+    select
+    <include refid="Base_Column_List"/>
+    from child
+    <include refid="Example_Where_Clause"/>
+    <if test="orderByClause != null and orderByClause != ''" >
+      order by  ${orderByClause}
+    </if>
+  </select>
+
+  <!-- 查询用户列表 -->
+  <select id="getChildRankingList" resultType="java.util.Map"  parameterType="Object">
+    SELECT c.*, IFNULL(r.user_score,0) user_score
+    FROM child c LEFT JOIN report r ON c.child_id = r.user_unique_id AND r.test_code = #{testCode}
+    WHERE c.classes = #{classId} ORDER BY r.user_score DESC, r.use_time
+  </select>
+
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where 1=1
+    <trim  suffixOverrides="," >
+      <if test="parentId != null and parentId != ''" >
+        and parent_id =  #{parentId}
+      </if>
+      <if test="classes != null">
+        and classes = #{classes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </sql>
+</mapper>

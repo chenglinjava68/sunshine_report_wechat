@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wechat.dao.TeacherClassMapper" >
+  <resultMap id="BaseResultMap" type="com.wechat.entity.TeacherClass" >
+    <result column="teacher_id" property="teacherId" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- 通过教师id查询 -->
+  <select id="selectByTeacherId" resultMap="BaseResultMap" parameterType="com.wechat.entity.TeacherClass">
+  	select * from teacher_classes where teacher_id = #{teacherId}
+  </select>
+  <!-- 通过教师id和班级id查询 -->
+  <select id="selectByTeacherIdAndClassId" resultMap="BaseResultMap" parameterType="com.wechat.entity.TeacherClass">
+  	select * from teacher_classes where teacher_id = #{teacherId} and class_id = #{classId}
+  </select>
+  <!-- 添加班级 -->
+  <insert id="insert" parameterType="com.wechat.entity.TeacherClass" >
+    insert into teacher_classes (teacher_id, class_id)
+    values (#{teacherId,jdbcType=VARCHAR}, #{classId,jdbcType=VARCHAR})
+  </insert>
+  <!--  删除班级 -->
+  <delete id="deleteClass" parameterType="com.wechat.entity.TeacherClass">
+  	delete from teacher_classes where teacher_id = #{teacherId} and class_id = #{classId}
+  </delete>
+  <insert id="insertSelective" parameterType="com.wechat.entity.TeacherClass" >
+    insert into teacher_classes
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teacherId != null" >
+        teacher_id,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teacherId != null" >
+        #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

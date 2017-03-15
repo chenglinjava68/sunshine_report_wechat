@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wechat.dao.UserDao">
+  <resultMap id="BaseResultMap" type="com.wechat.entity.User">
+    <id column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_type" jdbcType="INTEGER" property="userType" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="head_img_url" jdbcType="VARCHAR" property="headImgUrl" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="area_id" jdbcType="VARCHAR" property="areaId" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="school_id" jdbcType="BIGINT" property="schoolId" />
+    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_type, mobile, user_name, open_id, head_img_url, sex, area_id, area_name, school, school_id, login_time, status,
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sunshine_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sunshine_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wechat.entity.User">
+    <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="userId">
+      SELECT UUID()
+    </selectKey>
+    insert into sunshine_user (user_id, user_type, mobile,
+    user_name, open_id, head_img_url,
+    sex, area_id, area_name, school, school_id, login_time, status,
+    create_time, update_time)
+    values (#{userId,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR},
+    #{userName,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{headImgUrl,jdbcType=VARCHAR},
+    #{sex,jdbcType=INTEGER}, #{areaId,jdbcType=VARCHAR},  #{areaName,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{schoolId,jdbcType=BIGINT},#{loginTime,jdbcType=TIMESTAMP},
+    #{status,jdbcType=BIT}, now(), now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.wechat.entity.User">
+    <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="userId">
+      SELECT UUID()
+    </selectKey>
+    insert into sunshine_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="headImgUrl != null">
+        head_img_url,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="areaName != null">
+        area_name,
+      </if>
+      <if test="areaId != null">
+        area_id,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="schoolId != null">
+        school_id,
+      </if>
+      <if test="loginTime != null">
+        login_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      create_time,
+      update_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="headImgUrl != null">
+        #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null">
+        #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null">
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      now(), now()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wechat.entity.User">
+    update sunshine_user
+    <set>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="headImgUrl != null">
+        head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="areaId != null">
+        area_id = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null">
+        school_id = #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null">
+        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      update_time = now()
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wechat.entity.User">
+    update sunshine_user
+    set user_type = #{userType,jdbcType=INTEGER},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      area_id = #{areaId,jdbcType=VARCHAR},
+      area_name = #{areaName,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      school_id = #{schoolId,jdbcType=VARCHAR},
+      login_time = #{loginTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = now()
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 查询用户列表 -->
+  <select id="selectList" resultMap="BaseResultMap"  parameterType="Object">
+    select
+    <include refid="Base_Column_List"/>
+    from sunshine_user
+    <include refid="Example_Where_Clause"/>
+    <if test="orderByClause != null and orderByClause != ''" >
+      order by  ${orderByClause}
+    </if>
+  </select>
+
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where 1=1
+    <trim  suffixOverrides="," >
+      <if test="userId != null and userId != ''" >
+        and user_id =  #{userId}
+      </if>
+      <if test="userType != null and userType != ''" >
+        and user_type =  #{userType}
+      </if>
+      <if test="sex != null and sex != ''" >
+        and sex =  #{sex}
+      </if>
+      <if test="openId != null and openId != ''" >
+        and open_id =  #{openId}
+      </if>
+      <if test="userName != null and userName != ''" >
+        and user_name =  #{userName}
+      </if>
+      <if test="mobile != null and mobile != ''" >
+        and mobile =  #{mobile}
+      </if>
+      <if test="headImgUrl != null and headImgUrl != ''" >
+        and head_img_url =  #{headImgUrl}
+      </if>
+      <if test="areaId != null">
+        and area_id = #{areaId},
+      </if>
+      <if test="areaName != null">
+        and area_name = #{areaName},
+      </if>
+      <if test="school != null">
+        and school = #{school},
+      </if>
+      <if test="schoolId != null">
+        and school_id = #{schoolId},
+      </if>
+      <if test="status != null and status != ''" >
+        and status =  #{status}
+      </if>
+      <if test="loginTime != null and lastTime != ''" >
+        and login_time =  #{loginTime}
+      </if>
+      <if test="createTime != null and createTime != ''" >
+        and create_time =  #{createTime}
+      </if>
+      <if test="updateTime != null and updateTime != ''" >
+        and update_time =  #{updateTime}
+      </if>
+    </trim>
+  </sql>
+  <select id="selectOne" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sunshine_user
+    <include refid="Example_Where_Clause"/> limit 1
+  </select>
+</mapper>

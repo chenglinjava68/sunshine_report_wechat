@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wechat.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.wechat.entity.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="paper_id" jdbcType="VARCHAR" property="paperId" />
+    <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="total_amout" jdbcType="VARCHAR" property="totalAmout" />
+    <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
+    <result column="paper_name" jdbcType="VARCHAR" property="paperName" />
+     <result column="sunuserid" jdbcType="VARCHAR" property="sunuserid" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="channel" jdbcType="VARCHAR" property="channel" />
+    <result column="sun_amout" jdbcType="VARCHAR" property="sunAmout" />
+    <result column="cash_coupon_code" jdbcType="VARCHAR" property="cashCouponCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, paper_id, out_trade_no, user_id, state, description, total_amout, serial_number, 
+    paper_name, sunuserid,create_time, update_time, channel, sun_amout, cash_coupon_code
+  </sql>
+  <!-- 通过用户信息查询订单 -->
+  <select id="selectBypeperId" parameterType="com.wechat.entity.Order" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sun_order
+    where user_id = #{userId,jdbcType=VARCHAR} and paper_id = #{paperId,jdbcType=VARCHAR} and state = #{state,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sun_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getByOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from sun_order
+   	where out_trade_no = #{outTradeNo,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sun_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wechat.entity.Order">
+    insert into sun_order (id, paper_id, out_trade_no, 
+      user_id, state, description, 
+      total_amout, serial_number, paper_name, sunuserid,
+      create_time, update_time, channel, 
+      sun_amout, cash_coupon_code)
+    values (#{id,jdbcType=INTEGER}, #{paperId,jdbcType=VARCHAR}, #{outTradeNo,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{totalAmout,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{paperName,jdbcType=VARCHAR}, #{sunuserid,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{channel,jdbcType=VARCHAR}, 
+      #{sunAmout,jdbcType=VARCHAR}, #{cashCouponCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wechat.entity.Order">
+    insert into sun_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="paperId != null">
+        paper_id,
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_no,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="totalAmout != null">
+        total_amout,
+      </if>
+      <if test="serialNumber != null">
+        serial_number,
+      </if>
+      <if test="paperName != null">
+        paper_name,
+      </if>
+       <if test="sunuserid != null">
+        sunuserid,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="channel != null">
+        channel,
+      </if>
+      <if test="sunAmout != null">
+        sun_amout,
+      </if>
+      <if test="cashCouponCode != null">
+        cash_coupon_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="paperId != null">
+        #{paperId,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null">
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAmout != null">
+        #{totalAmout,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNumber != null">
+        #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="paperName != null">
+        #{paperName,jdbcType=VARCHAR},
+      </if>
+      <if test="sunuserid != null">
+        #{sunuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channel != null">
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="sunAmout != null">
+        #{sunAmout,jdbcType=VARCHAR},
+      </if>
+      <if test="cashCouponCode != null">
+        #{cashCouponCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wechat.entity.Order">
+    update sun_order
+    <set>
+      <if test="paperId != null">
+        paper_id = #{paperId,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAmout != null">
+        total_amout = #{totalAmout,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNumber != null">
+        serial_number = #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="paperName != null">
+        paper_name = #{paperName,jdbcType=VARCHAR},
+      </if>
+      <if test="sunuserid != null">
+        sunuserid = #{sunuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channel != null">
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="sunAmout != null">
+        sun_amout = #{sunAmout,jdbcType=VARCHAR},
+      </if>
+      <if test="cashCouponCode != null">
+        cash_coupon_code = #{cashCouponCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wechat.entity.Order">
+    update sun_order
+    set paper_id = #{paperId,jdbcType=VARCHAR},
+      out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      total_amout = #{totalAmout,jdbcType=VARCHAR},
+      serial_number = #{serialNumber,jdbcType=VARCHAR},
+      paper_name = #{paperName,jdbcType=VARCHAR},
+      sunuserid = #{sunuserid,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      channel = #{channel,jdbcType=VARCHAR},
+      sun_amout = #{sunAmout,jdbcType=VARCHAR},
+      cash_coupon_code = #{cashCouponCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByOrderNo" parameterType="com.wechat.entity.Order">
+  	update sun_order set state = #{state,jdbcType=VARCHAR}, sun_amout = #{sunAmout,jdbcType=VARCHAR} where out_trade_no = #{outTradeNo}
+  </update>
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wechat.dao.CashCouponMapper">
+  <resultMap id="BaseResultMap" type="com.wechat.entity.CashCoupon">
+    <id column="cash_coupon_code" jdbcType="VARCHAR" property="cashCouponCode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="denomination" jdbcType="INTEGER" property="denomination" />
+    <result column="expiry_date_start" jdbcType="TIMESTAMP" property="expiryDateStart" />
+    <result column="expiry_date_end" jdbcType="TIMESTAMP" property="expiryDateEnd" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cash_coupon_code, name, denomination, expiry_date_start, expiry_date_end, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cash_coupon
+    where cash_coupon_code = #{cashCouponCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cash_coupon
+    where cash_coupon_code = #{cashCouponCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wechat.entity.CashCoupon">
+    insert into cash_coupon (cash_coupon_code, name, denomination, 
+      expiry_date_start, expiry_date_end, status
+      )
+    values (#{cashCouponCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{denomination,jdbcType=INTEGER}, 
+      #{expiryDateStart,jdbcType=TIMESTAMP}, #{expiryDateEnd,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wechat.entity.CashCoupon">
+    insert into cash_coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cashCouponCode != null">
+        cash_coupon_code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="denomination != null">
+        denomination,
+      </if>
+      <if test="expiryDateStart != null">
+        expiry_date_start,
+      </if>
+      <if test="expiryDateEnd != null">
+        expiry_date_end,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cashCouponCode != null">
+        #{cashCouponCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="denomination != null">
+        #{denomination,jdbcType=INTEGER},
+      </if>
+      <if test="expiryDateStart != null">
+        #{expiryDateStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiryDateEnd != null">
+        #{expiryDateEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wechat.entity.CashCoupon">
+    update cash_coupon
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="denomination != null">
+        denomination = #{denomination,jdbcType=INTEGER},
+      </if>
+      <if test="expiryDateStart != null">
+        expiry_date_start = #{expiryDateStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiryDateEnd != null">
+        expiry_date_end = #{expiryDateEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where cash_coupon_code = #{cashCouponCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wechat.entity.CashCoupon">
+    update cash_coupon
+    set name = #{name,jdbcType=VARCHAR},
+      denomination = #{denomination,jdbcType=INTEGER},
+      expiry_date_start = #{expiryDateStart,jdbcType=TIMESTAMP},
+      expiry_date_end = #{expiryDateEnd,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where cash_coupon_code = #{cashCouponCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

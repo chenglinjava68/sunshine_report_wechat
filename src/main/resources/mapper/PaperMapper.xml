@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wechat.dao.PaperMapper" >
+  <resultMap id="BaseResultMap" type="com.wechat.entity.Paper" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="gradeCode" property="gradecode" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="subjectCode" property="subjectcode" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.wechat.entity.Paper" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, gradeCode, version, subjectCode,price
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from paper
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPrimary" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  	select 
+  	 <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+     from paper
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 由年级查询试卷 -->
+  <select id="selectPaperByGradeCode" resultMap="ResultMapWithBLOBs" parameterType="com.wechat.entity.Paper">
+	select * from paper where gradeCode =#{gradecode} and subjectCode =#{subjectcode}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from paper
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wechat.entity.Paper" >
+    insert into paper (id, gradeCode, version, 
+      subjectCode, price,content)
+    values (#{id,jdbcType=VARCHAR}, #{gradecode,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, 
+      #{subjectcode,jdbcType=INTEGER},  #{price,jdbcType=INTEGER},#{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wechat.entity.Paper" >
+    insert into paper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="gradecode != null" >
+        gradeCode,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="subjectcode != null" >
+        subjectCode,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="gradecode != null" >
+        #{gradecode,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="subjectcode != null" >
+        #{subjectcode,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wechat.entity.Paper" >
+    update paper
+    <set >
+      <if test="gradecode != null" >
+        gradeCode = #{gradecode,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="subjectcode != null" >
+        subjectCode = #{subjectcode,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wechat.entity.Paper" >
+    update paper
+    set gradeCode = #{gradecode,jdbcType=INTEGER},
+      version = #{version,jdbcType=INTEGER},
+      subjectCode = #{subjectcode,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR},
+      price = #{price,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wechat.entity.Paper" >
+    update paper
+    set gradeCode = #{gradecode,jdbcType=INTEGER},
+      version = #{version,jdbcType=INTEGER},
+      subjectCode = #{subjectcode,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
